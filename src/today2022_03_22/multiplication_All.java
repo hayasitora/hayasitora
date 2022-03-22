@@ -13,7 +13,6 @@ public class multiplication_All {
 					
 					for (i=1; i<10; i++) {
 						
-						if(i>0)
 						System.out.println("%d*%d=".formatted(j,i)+j*i);
 						
 					}
