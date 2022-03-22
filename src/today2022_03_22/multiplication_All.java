@@ -9,7 +9,7 @@ public class multiplication_All {
 		int i,j= 0;
 				for(j=2; j<10; j++) {
 					System.out.println("%d단이에요".formatted(j));
-					
+					System.out.println();
 					
 					for (i=1; i<10; i++) {
 						
