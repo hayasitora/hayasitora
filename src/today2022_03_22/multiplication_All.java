@@ -6,12 +6,12 @@ public class multiplication_All {
 		
 		//get multiplication all 2~9
 		
-		int i,j= 0;
-				for(j=2; j<10; j++) {
+
+				for(int j=2; j<10; j++) {
 					System.out.println("%d단이에요".formatted(j));
 					
 					
-					for (i=1; i<10; i++) {
+					for (int i=1; i<10; i++) {
 						
 						System.out.println("%d*%d=".formatted(j,i)+j*i);
 						
