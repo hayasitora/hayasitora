@@ -12,7 +12,7 @@ public class if4 {
 		int j=scan.nextInt();
 		
 		for(i = 1; i<10; i++ ) {
-			System.out.println(j*i);
+			System.out.println("%d*%d=".formatted(j, i)+j*i);
 			System.out.println();
 			
 		
