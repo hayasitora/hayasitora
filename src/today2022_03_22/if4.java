@@ -1,4 +1,4 @@
-package study;
+package today2022_03_22;
 import java.util.Scanner;
 public class if4 {
 
@@ -8,7 +8,7 @@ public class if4 {
 		//2022year 03th 22day /
 		
 		int i=0;
-		System.out.println("ë°›ê³ ì‹¶ì€ êµ¬êµ¬ë‹¨ ì„ ì…ë ¥í•´ì£¼ì„¸ìš”");
+		System.out.println("?°›ê³??‹¶?€ ?µ¬?µ¬?‹¨ ?„ ?…??¥ú±´?£¼?„¸?š”");
 		int j=scan.nextInt();
 		
 		for(i = 1; i<10; i++ ) {
