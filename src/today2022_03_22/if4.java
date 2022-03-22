@@ -8,7 +8,7 @@ public class if4 {
 		//2022year 03th 22day /
 		
 		int i=0;
-		System.out.println("?°›ê³??‹¶?€ ?µ¬?µ¬?‹¨ ?„ ?…??¥ú±´?£¼?„¸?š”");
+		System.out.println("plz press the multiplication_table number");
 		int j=scan.nextInt();
 		
 		for(i = 1; i<10; i++ ) {
