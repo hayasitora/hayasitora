@@ -9,7 +9,7 @@ public class while_1 {
 		Scanner sc= new Scanner(System.in);
 		int number=0;
 		System.out.println("1~10 press the number press 0=exit");
-		int a=1;
+		int a=0;
 		
 		//get while
 		while(true) {
@@ -17,7 +17,6 @@ public class while_1 {
 			a=sc.nextInt();
 			// a= in side 10
 			if(a>10){
-				number++;
 				System.out.println("this number not in 1~10");
 			}
 		//a=0 is break and show you're count
