@@ -9,19 +9,31 @@ public class while_1 {
 		Scanner sc= new Scanner(System.in);
 		int number=0;
 		System.out.println("1~10 press the number press 0=exit");
+		int a=1;
 		
-		int a; 			
+		//get while
+		while(true) {
 		
-		while(number<11) {
 			a=sc.nextInt();
-			number++;
-			System.out.println("get number is ="+a);
-			
+			// a= in side 10
+			if(a>10){
+				number++;
+				System.out.println("this number not in 1~10");
+			}
+		//a=0 is break and show you're count
 			if(a==0) {
 				System.out.println("i get count %d".formatted(number));
 				break;
 			}
+			//a<11 = not true
+			if(a<11) {
+					number++;
+					System.out.println("get number is ="+a);
+				}
+			}
+			}
+			
 		}
-	}
-}
+	
+
 
