@@ -10,7 +10,7 @@ public static int a,b,i,j,p;
 			
 	}
 	public static void main(String[]args) {
-		HT3();	
+		HT2();	
 	}
 	//HT1 report run in the switch
 	public static void HT1() {
