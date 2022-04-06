@@ -21,7 +21,7 @@ public static int[] a2= {4,5,6};
 		//answer();
 		//Juniorreshman();
 		//terminated();
-		movie();
+		//movie();
 	}
 	//15~33 system
 	public static int readchoice(String pop,int userchoice) {
