@@ -3,48 +3,54 @@ package Animalmain;
 public class Productmain {
 
 	public static void main(String[] args) {
-		//±¸¸ÅÀÚ °´Ã¼ »ı¼º
+		//êµ¬ë§¤ì ê°ì²´ ìƒì„±
 		Buyer b=new Buyer();
-		//Á¦Ç°ÀÇ °´Ã¼»ı¼º
+		//ì œí’ˆì˜ ê°ì²´ìƒì„±
 		Product[] p=new Product[3];
-		//¾÷ÄÉ½ºÆÃ
+		//ì—…ì¼€ìŠ¤íŒ…
 		p[0]=new TV();
 		p[1]=new Computer();
 		p[2]=new Audio();
 
 		for(int i=0; i<3; i++) {
-			//»ç¿ëÀÚÀÇ ¹°°Ç±¸¸Å ¹İº¹ 3¹ø
+			//ì‚¬ìš©ìì˜ ë¬¼ê±´êµ¬ë§¤ ë°˜ë³µ 3ë²ˆ
 			b.buy(p[i]);
 		}
-		//»ç¿ëÀÚÀÇ ¼ÒÁö±İ Ãâ·Â
+		//ì‚¬ìš©ìì˜ ì†Œì§€ê¸ˆ ì¶œë ¥
 		b.print();
 	}
 
 }
-//±âº»°ª
+//ë¶€ëª¨ì„ ì–¸
 class Product{
 	int price;
 	int bonusPoint;
 }
+//ìë…€ ì„ ì–¸
 class TV extends Product{
 	int channel;
 	int volume;
+//ì´ˆê¸°ê°’
 	TV(){
 		price=100;
 		bonusPoint=100;
 	}
 }
+//ìë…€ ì„ ì–¸
 class Computer extends Product{
 	int cpu;
 	int ram;
+	//ì´ˆê¸°ê°’
 	Computer() {
 	price=200;
 	bonusPoint=200;
 	}
 }
+//ìë…€ ì„ ì–¸
 class Audio extends Product{
 	int volume;
 	int speaker;
+	//ì´ˆê¸°ê°’
 	Audio(){
 		price=50;
 		bonusPoint=50;
@@ -54,14 +60,14 @@ class Buyer{
 
 	int money=10000;
 	int bonusPoint=0;
-	// °¡Áøµ·¸¸Å­ µ·À» »©°í Æ÷ÀÎÆ®¸¦ Àû¸³
+	// ê°€ì§„ëˆë§Œí¼ ëˆì„ ë¹¼ê³  í¬ì¸íŠ¸ë¥¼ ì ë¦½ 
 	void buy(Product p) {
 		money=money-p.price;
 		bonusPoint=bonusPoint+p.bonusPoint;
 	}
+	//ì¶œë ¥
 	void print() {
 		System.out.println("money="+money);
 		System.out.println("bonusPoint="+bonusPoint);
 	}
 }
-
