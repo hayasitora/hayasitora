@@ -1,0 +1,91 @@
+package H1;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
+import G1.g4.Member;
+
+public class h2 {
+	public static void main(String[] args)throws IOException{
+		// TODO Auto-generated method stub
+		File file=new File("src/H1/student.txt");
+		BufferedReader ser=new BufferedReader(new InputStreamReader(System.in));
+	
+			
+			FileReader fr=new FileReader(file,StandardCharsets.UTF_8);
+			BufferedReader br=new BufferedReader(fr);
+			String str=null;
+			ArrayList<Singer>a1=new ArrayList <Singer> ();
+			
+			while((str=br.readLine())!=null) {
+					System.out.println(str);	
+					String[] strArray= str.split(",");	
+				int te=0;
+			//	System.out.print(strArray.length);
+				try {
+					Singer s=	new Singer(
+							 Integer.valueOf(strArray[0]),
+					strArray[1],
+					Integer.valueOf(strArray[2]),
+					Integer.valueOf(strArray[3]),
+					Integer.valueOf(strArray[4]));
+					
+					a1.add(te,s);
+					te++;
+				}catch(Exception a) {
+					a.printStackTrace();
+					a.getMessage();
+				}
+			}
+			
+//			System.out.println("find name");
+//			String se=ser.readLine();
+			
+			System.out.println(a1.get(0));
+	
+			
+			br.close();
+			fr.close();
+			
+	}
+}
+ class Singer{
+	int nt;
+	String name;
+	int kor;
+	int eng;
+	int math;
+	Singer(){
+		
+	}
+	public void setName(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setNo(Integer valueOf) {
+		// TODO Auto-generated method stub
+		
+	}
+	public Singer(int nt, String name,int strArray,int strArray2,int strArray3){
+		this.nt=nt;
+		this.name=name;
+		this.kor=strArray;
+		this.eng=strArray2;
+		this.math=strArray3;
+	}
+	
+}
+
+class none extends Exception{
+	
+	public none(){
+	super("not true");
+	
+}
+}
