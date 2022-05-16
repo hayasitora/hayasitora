@@ -1,0 +1,15 @@
+실행 사용자 - (예매)- (예매 확인)-(예매 취소하기) 
+관리자 모드 (커맨드 equals)
+(영화등록) (영화 목록) (영화 삭제) (메인 메뉴로 이동하기)
+기타 관련 문의및 
+
+추가 요구사항을 정리해서 덧붙인다.
+
+class = MainApp
+menu= Menu
+AbstractClass= AbstractMenu
+class= MainMenu
+-- /	AdminMenu
+--/	Movie
+--/	Reservation
+--/	Seats
