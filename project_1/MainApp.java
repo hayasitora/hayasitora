@@ -15,13 +15,14 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class Mainapp {
+public class MainApp {
 
 	public static void main(String[] args) throws IOException {
 		AdminMenu a=new AdminMenu();
-		a.MovieListSet();
+//		a.MovieListSet();
 //		a.Remove_MovieAll();
-		
+//		a.MovieListAll();
+//		a.Remove_MovieAll();
 
 	}
 
@@ -38,7 +39,7 @@ abstract class AbstractMenu{
 	String path="MLdata\\MovieList";
 	ArrayList<Movie> MovieAl= new ArrayList<Movie>();
 	BufferedReader Ser=new BufferedReader(new InputStreamReader(System.in));
-	private int count=0;
+	private int count=1;
 	
 	//get value method
 	public int select(int userchoice,String pup) {
@@ -83,7 +84,7 @@ abstract class AbstractMenu{
 		String MovieGerne=Ser.readLine();
 		
 		
-		
+		int let=1;
 		File Folder= new File(path);
 		//Folder is not make Folder
 		if(!Folder.exists()) {
@@ -93,15 +94,24 @@ abstract class AbstractMenu{
 				e.printStackTrace();		
 		}	
 		}
+	
 		//make data.txt file
 		FileOutputStream fos=new FileOutputStream(path+"\\data.txt",true);
 		BufferedOutputStream bos=new BufferedOutputStream(fos);
 		
+		FileReader fr=new FileReader(path+"\\data.txt");
+		BufferedReader br= new BufferedReader(fr);
+		
+		while(br.readLine()!=null) {
+			count++;
+		}
+		br.close();
+		fr.close();
 		//writer Movie List
 		FileWriter fw=new FileWriter(path+"\\data.txt",true);
 		BufferedWriter bw=new BufferedWriter(fw); 
 			
-		count++;
+		
 		Movie m=new Movie(count,MovieName,MovieGerne);
 		MovieAl.add(m);
 		
@@ -131,7 +141,7 @@ abstract class AbstractMenu{
 		clear();
 		System.out.println("MovieList");
 		for(int i=0; i<MovieAl.size();i++) {
-			System.out.println(MovieAl.get(i));
+			MovieAl.get(i).getName();
 		}
 	}
 	
@@ -183,7 +193,7 @@ class Movie{
 	String MovieGenre;
 	
 	int count;
-	Movie(){
+	void getName(){
 		System.out.println(count+"번\s"+"영화 제목:\s"+MovieName+"장르:\s"+MovieGenre);
 	}
 	
