@@ -15,32 +15,70 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class MainApp {
+public class Mainapp {
 
 	public static void main(String[] args) throws IOException {
 		AdminMenu a=new AdminMenu();
+		a.RoadMovie();
+		a.AdminMenuRun();
 //		a.MovieListSet();
 //		a.Remove_MovieAll();
-//		a.MovieListAll();
-//		a.Remove_MovieAll();
-
+//		a.Remove_Movie();
+//		a.MovieListGet();
+//		a.MovieListGetAll();
 	}
 
 }
 //Main menu class
-class Menu{
+class Menu extends AbstractMenu{
 	Menu(){
 		
 		System.out.println("메뉴");
 	}
+	
 }
+
+//Reservation Class
+class Reservation{
+	
+}
+
+class RecommendMovie{
+	
+}
+
+//Seat class02
+class Seats{
+	
+}
+
 //Abstract Class
-abstract class AbstractMenu{
+abstract class AbstractMenu extends Thread{
 	String path="MLdata\\MovieList";
 	ArrayList<Movie> MovieAl= new ArrayList<Movie>();
 	BufferedReader Ser=new BufferedReader(new InputStreamReader(System.in));
 	private int count=1;
+	private final String password="MovieArea";
 	
+	void RoadMovie() throws IOException{
+		
+		FileReader fr=new FileReader(path+"\\data.txt");
+		BufferedReader br=new BufferedReader(fr);
+		String [] a=new String [3];
+		String s=null;
+		int is=0;
+		while((s=br.readLine())!=null) {
+		a=s.split(",");
+		is=Integer.parseInt(a[0]);
+		Movie sample_movie=new Movie(is,a[1],a[2]);
+		MovieAl.add(sample_movie);
+		
+		}
+		br.close();
+		fr.close();
+		
+		
+	}
 	//get value method
 	public int select(int userchoice,String pup) {
 		BufferedReader Ser=new BufferedReader(new InputStreamReader(System.in));
@@ -53,7 +91,7 @@ abstract class AbstractMenu{
 				input=-1;
 				e.printStackTrace();
 			}
-		}while(0<input||input>userchoice);
+		}while(0>input||input>userchoice);
 		return input;
 	}
 	
@@ -84,7 +122,7 @@ abstract class AbstractMenu{
 		String MovieGerne=Ser.readLine();
 		
 		
-		int let=1;
+		
 		File Folder= new File(path);
 		//Folder is not make Folder
 		if(!Folder.exists()) {
@@ -94,23 +132,22 @@ abstract class AbstractMenu{
 				e.printStackTrace();		
 		}	
 		}
-	
 		//make data.txt file
 		FileOutputStream fos=new FileOutputStream(path+"\\data.txt",true);
 		BufferedOutputStream bos=new BufferedOutputStream(fos);
 		
+		//writer Movie List
+		FileWriter fw=new FileWriter(path+"\\data.txt",true);
+		BufferedWriter bw=new BufferedWriter(fw); 
+			
 		FileReader fr=new FileReader(path+"\\data.txt");
 		BufferedReader br= new BufferedReader(fr);
-		
+
 		while(br.readLine()!=null) {
 			count++;
 		}
 		br.close();
 		fr.close();
-		//writer Movie List
-		FileWriter fw=new FileWriter(path+"\\data.txt",true);
-		BufferedWriter bw=new BufferedWriter(fw); 
-			
 		
 		Movie m=new Movie(count,MovieName,MovieGerne);
 		MovieAl.add(m);
@@ -131,18 +168,24 @@ abstract class AbstractMenu{
 	//Movie List Get [x]
 	public void MovieListGet()throws IOException {
 		clear();
+		
 		System.out.println("Pless Enter The Movie Number");
 		int x=Integer.parseInt(Ser.readLine());
-		System.out.println(MovieAl.get(x));
+		x=x-1;
+		Movie a=new Movie(MovieAl.get(x).count,MovieAl.get(x).MovieName,MovieAl.get(x).MovieGenre);
+		a.getname();
+		
 	}
 	
 	//Movie List Get All
-	public void MovieListAll() {
+	public void MovieListGetAll() {
 		clear();
 		System.out.println("MovieList");
+		line30();
 		for(int i=0; i<MovieAl.size();i++) {
-			MovieAl.get(i).getName();
+		MovieAl.get(i).getname();
 		}
+		line30();
 	}
 	
 	public void Remove_Movie()throws IOException{
@@ -175,33 +218,97 @@ abstract class AbstractMenu{
 		file.delete();
 	}
 	
+	public void delay() {
+		line30();
+		System.out.println("close be 5 second ");
+		line30();
+		for(int i=0; i<5; i++) {
+			try {
+				sleep(1000);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void Admin() throws IOException {
+		System.out.println("plese put in password");
+		System.out.print("-->");
+		String PW=Ser.readLine();
+		if(PW.equals(password)) {
+			AdminMenu am=new AdminMenu();
+			am.AdminMenuRun();
+		}
+		else {
+			System.out.println("password is worng");
+		}
+	}
 }
 //AdminMenu Class
 class AdminMenu extends AbstractMenu{
+
+	//Admin menu run
+	void AdminMenuRun() throws IOException{
+		boolean Runner=true;
+		while(Runner==true){
+			
+		
+		clear();
+		System.out.println("Admin Menu");
+		line30();
+		
+		System.out.println("1--> Set Movie");
+		System.out.println("2--> Get Movie");
+		System.out.println("3--> Movie List All");
+		System.out.println("4--> Delect Movie");
+		System.out.println("5--> destroy Movie List");
+		System.out.println("6--> Back UserMenu");
+		int input=select(6, "-->");
+		switch(input) {
+		case 1: 
+			MovieListSet();
+			delay();
+			break;
+		case 2:
+			MovieListGet();
+			delay();
+			break;
+		case 3:
+			MovieListGetAll();
+			delay();
+			break;
+		case 4:
+			Remove_Movie();
+			delay();
+			break;
+		case 5:
+			Remove_MovieAll();
+			delay();
+			break;
+		case 6:
+			//user menu();
+			Runner=false;
+			break;
+		}
+		}
+	}
 	
 }
-//Reservation Class
-class Reservation{
-	
-}
-//Seat class02
-class Seats{
-	
-}
+
 class Movie{
 	String MovieName;
 	String MovieGenre;
 	
 	int count;
-	void getName(){
-		System.out.println(count+"번\s"+"영화 제목:\s"+MovieName+"장르:\s"+MovieGenre);
-	}
 	
 	Movie(int count,String MovieName,String MovieGenre){
 		this.count=count;
 		this.MovieName=MovieName;
 		this.MovieGenre=MovieGenre;
 	
+	}
+	void getname(){
+		System.out.println(count+"번\s"+"제목:"+MovieName+"\s 장르:"+MovieGenre);
 	}
 	int getMovieNumber() {
 		return count;
