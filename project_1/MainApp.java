@@ -61,22 +61,24 @@ abstract class AbstractMenu extends Thread{
 	private final String password="MovieArea";
 	
 	void RoadMovie() throws IOException{
-		
-		FileReader fr=new FileReader(path+"\\data.txt");
-		BufferedReader br=new BufferedReader(fr);
-		String [] a=new String [3];
-		String s=null;
-		int is=0;
-		while((s=br.readLine())!=null) {
-		a=s.split(",");
-		is=Integer.parseInt(a[0]);
-		Movie sample_movie=new Movie(is,a[1],a[2]);
-		MovieAl.add(sample_movie);
-		
+		try {
+			FileReader fr=new FileReader(path+"\\data.txt");
+			BufferedReader br=new BufferedReader(fr);
+			String [] a=new String [3];
+			String s=null;
+			int is=0;
+			while((s=br.readLine())!=null) {
+			a=s.split(",");
+			is=Integer.parseInt(a[0]);
+			Movie sample_movie=new Movie(is,a[1],a[2]);
+			MovieAl.add(sample_movie);
+			
+			}
+			br.close();
+			fr.close();
+		}catch(Exception e) {
+			System.out.println("Data is notthing");
 		}
-		br.close();
-		fr.close();
-		
 		
 	}
 	//get value method
@@ -89,9 +91,9 @@ abstract class AbstractMenu extends Thread{
 				input=Integer.parseInt(Ser.readLine());
 			}catch(Exception e){
 				input=-1;
-				e.printStackTrace();
+				System.out.println("plese input type-Integer-");
 			}
-		}while(0>input||input>userchoice);
+		}while(1>input||input>userchoice);
 		return input;
 	}
 	
@@ -112,7 +114,7 @@ abstract class AbstractMenu extends Thread{
 		System.out.println();
 	}
 	
-	//movie list setter
+	//movie list setter fix 필요
 	public void MovieListSet() throws IOException{
 		//save Movie Name
 		System.out.println("Enter MovieName");
@@ -155,6 +157,7 @@ abstract class AbstractMenu extends Thread{
 		bw.write(+m.getMovieNumber()+","+m.getMovieName()+","+m.getMovieGenre()+"\r");
 		
 		bw.flush();
+		
 		bw.close();
 		fw.close();
 		bos.close();
@@ -190,9 +193,10 @@ abstract class AbstractMenu extends Thread{
 	
 	public void Remove_Movie()throws IOException{
 		clear();
+		MovieListGetAll();
 		System.out.println("Enter Remove Number");
 		int x=Integer.parseInt(Ser.readLine());
-		MovieAl.remove(x);
+		MovieAl.remove(x-1);
 		
 		FileReader fr=new FileReader(path+"\\data.txt");
 		BufferedReader br=new BufferedReader(fr);
@@ -201,22 +205,62 @@ abstract class AbstractMenu extends Thread{
 		while((d=br.readLine())!=null) {
 			TemporData.add(d);
 		}
-		TemporData.remove(x);
+		//이렇게 지우면 랭크 겹침 for문으로 겹친거 없는숫자를 입력해서 넣어야함
+		TemporData.remove(x-1);
+		br.close();
+		fr.close();
 		FileWriter fw=new FileWriter(path+"\\data.txt",false);
 		BufferedWriter bw=new BufferedWriter(fw);
 		for(int i=0; i<TemporData.size();i++) {
-			bw.write(TemporData.get(i));
+			bw.write(TemporData.get(i)+"\r");
+			
 		}
 		bw.flush();
 		bw.close();
 		fw.close();
 	}
-	public void Remove_MovieAll() {
+	public void Remove_MovieAll() throws IOException {
 		clear();
 		MovieAl.removeAll(MovieAl);
-		File file=new File(path+"\\data.txt");
-		file.delete();
+		
+		FileReader fr=new FileReader(path+"\\data.txt");
+		BufferedReader br=new BufferedReader(fr);
+		int e=0;
+		while(br.readLine()!=null) {
+			e++;
+		}	
+		br.close();
+		fr.close();
+		FileWriter fw=new FileWriter(path+"\\data.txt",false);
+		BufferedWriter bw=new BufferedWriter(fw);
+		for(int i=0; i<e;i++) {
+			bw.write("");
+		}
+		bw.flush();
+		bw.close();
+		fw.close();
+		System.out.println("data all clear");
+//		if(DF.exists()) {
+//			DF.delete();
+//			if(DF.exists()) {
+//				System.gc();
+//				DF.delete();
+//				if(DF.exists()) {
+//					System.gc();
+//					System.runFinalization();
+//					DF.delete();
+//					if(DF.exists()) {
+//						System.out.println("delete to failed"); 
+//					}
+//					else {
+//						System.out.println("deleted File");
+//					}
+//				}
+//			}
+//		}
 	}
+		
+	
 	
 	public void delay() {
 		line30();
@@ -261,7 +305,7 @@ class AdminMenu extends AbstractMenu{
 		System.out.println("2--> Get Movie");
 		System.out.println("3--> Movie List All");
 		System.out.println("4--> Delect Movie");
-		System.out.println("5--> destroy Movie List");
+		System.out.println("5--> Delect Movie List");
 		System.out.println("6--> Back UserMenu");
 		int input=select(6, "-->");
 		switch(input) {
