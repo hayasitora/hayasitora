@@ -1,4 +1,4 @@
-package project1;
+package project_1;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class Mainapp {
+public class MainApp {
 
 	public static void main(String[] args) throws IOException {
 		AdminMenu a=new AdminMenu();
@@ -141,15 +141,23 @@ abstract class AbstractMenu extends Thread{
 		//writer Movie List
 		FileWriter fw=new FileWriter(path+"\\data.txt",true);
 		BufferedWriter bw=new BufferedWriter(fw); 
-			
-		FileReader fr=new FileReader(path+"\\data.txt");
-		BufferedReader br= new BufferedReader(fr);
-
-		while(br.readLine()!=null) {
-			count++;
+		int s=0;
+		for(int i=0; i<MovieAl.size();i++) {
+			if(i!=(MovieAl.get(i).count)) {
+				s=i+1;
+				count=s;
+				break;
+			}
 		}
-		br.close();
-		fr.close();
+		
+//		FileReader fr=new FileReader(path+"\\data.txt");
+//		BufferedReader br= new BufferedReader(fr);
+//
+//		while(br.readLine()!=null) {
+//			count++;
+//		}
+//		br.close();
+//		fr.close();
 		
 		Movie m=new Movie(count,MovieName,MovieGerne);
 		MovieAl.add(m);
@@ -206,6 +214,7 @@ abstract class AbstractMenu extends Thread{
 			TemporData.add(d);
 		}
 		//이렇게 지우면 랭크 겹침 for문으로 겹친거 없는숫자를 입력해서 넣어야함
+		
 		TemporData.remove(x-1);
 		br.close();
 		fr.close();
