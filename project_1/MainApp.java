@@ -1,4 +1,4 @@
-package project_1;
+package project1;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class MainApp {
+public class Mainapp {
 
 	public static void main(String[] args) throws IOException {
 		AdminMenu a=new AdminMenu();
@@ -179,97 +179,182 @@ abstract class AbstractMenu extends Thread{
 	//Movie List Get [x]
 	public void MovieListGet()throws IOException {
 		clear();
-		
-		System.out.println("Pless Enter The Movie Number");
-		int x=Integer.parseInt(Ser.readLine());
-		x=x-1;
-		Movie a=new Movie(MovieAl.get(x).count,MovieAl.get(x).MovieName,MovieAl.get(x).MovieGenre);
-		a.getname();
-		
+		try {
+			System.out.println("Pless Enter The Movie Number");
+			int x=Integer.parseInt(Ser.readLine());
+			x=x-1;
+			Movie a=new Movie(MovieAl.get(x).count,MovieAl.get(x).MovieName,MovieAl.get(x).MovieGenre);
+			a.getname();
+		}catch(ArrayIndexOutOfBoundsException e ) {
+			System.out.println("None movie");
+		}
 	}
 	
 	//Movie List Get All
 	public void MovieListGetAll() {
 		clear();
-		System.out.println("MovieList");
-		line30();
-		for(int i=0; i<MovieAl.size();i++) {
-		MovieAl.get(i).getname();
+		try {
+			System.out.println("MovieList");
+			line30();
+			for(int i=0; i<MovieAl.size();i++) {
+			MovieAl.get(i).getname();
+			}
+			line30();
+		}catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("None Movie");
 		}
-		line30();
 	}
-	
+	//Movie remove
 	public void Remove_Movie()throws IOException{
 		clear();
-		MovieListGetAll();
-		System.out.println("Enter Remove Number");
-		int x=Integer.parseInt(Ser.readLine());
-		MovieAl.remove(x-1);
-		
-		FileReader fr=new FileReader(path+"\\data.txt");
-		BufferedReader br=new BufferedReader(fr);
-		ArrayList<String> TemporData=new ArrayList<String>();
-		String d=null;
-		while((d=br.readLine())!=null) {
-			TemporData.add(d);
-		}
-		//이렇게 지우면 랭크 겹침 for문으로 겹친거 없는숫자를 입력해서 넣어야함
-		
-		TemporData.remove(x-1);
-		br.close();
-		fr.close();
-		FileWriter fw=new FileWriter(path+"\\data.txt",false);
-		BufferedWriter bw=new BufferedWriter(fw);
-		for(int i=0; i<TemporData.size();i++) {
-			bw.write(TemporData.get(i)+"\r");
+		try {
+			MovieListGetAll();
+			System.out.println("Enter Remove Number");
+			int x=Integer.parseInt(Ser.readLine());
+			MovieAl.remove(x-1);
 			
+			FileReader fr=new FileReader(path+"\\data.txt");
+			BufferedReader br=new BufferedReader(fr);
+			ArrayList<String> TemporData=new ArrayList<String>();
+			String d=null;
+			while((d=br.readLine())!=null) {
+				TemporData.add(d);
+			}
+			//이렇게 지우면 랭크 겹침 for문으로 겹친거 없는숫자를 입력해서 넣어야함
+			
+			TemporData.remove(x-1);
+			br.close();
+			fr.close();
+			FileWriter fw=new FileWriter(path+"\\data.txt",false);
+			BufferedWriter bw=new BufferedWriter(fw);
+			for(int i=0; i<TemporData.size();i++) {
+				bw.write(TemporData.get(i)+"\r");
+				
+			}
+			bw.flush();
+			bw.close();
+			fw.close();
+		}catch(Exception e) {
+			System.out.println("Delect Movie is none");
 		}
-		bw.flush();
-		bw.close();
-		fw.close();
 	}
 	public void Remove_MovieAll() throws IOException {
 		clear();
-		MovieAl.removeAll(MovieAl);
-		
-		FileReader fr=new FileReader(path+"\\data.txt");
-		BufferedReader br=new BufferedReader(fr);
-		int e=0;
-		while(br.readLine()!=null) {
-			e++;
-		}	
-		br.close();
-		fr.close();
-		FileWriter fw=new FileWriter(path+"\\data.txt",false);
-		BufferedWriter bw=new BufferedWriter(fw);
-		for(int i=0; i<e;i++) {
-			bw.write("");
+		try {
+			MovieAl.removeAll(MovieAl);
+			
+			FileReader fr=new FileReader(path+"\\data.txt");
+			BufferedReader br=new BufferedReader(fr);
+			int e=0;
+			while(br.readLine()!=null) {
+				e++;
+			}	
+			br.close();
+			fr.close();
+			FileWriter fw=new FileWriter(path+"\\data.txt",false);
+			BufferedWriter bw=new BufferedWriter(fw);
+			for(int i=0; i<e;i++) {
+				bw.write("");
+			}
+			bw.flush();
+			bw.close();
+			fw.close();
+			System.out.println("data all clear");
+	//		if(DF.exists()) {
+	//			DF.delete();
+	//			if(DF.exists()) {
+	//				System.gc();
+	//				DF.delete();
+	//				if(DF.exists()) {
+	//					System.gc();
+	//					System.runFinalization();
+	//					DF.delete();
+	//					if(DF.exists()) {
+	//						System.out.println("delete to failed"); 
+	//					}
+	//					else {
+	//						System.out.println("deleted File");
+	//					}
+	//				}
+	//			}
+	//		}
+		}catch(Exception e) {
+			System.out.println("Delect Movie is none");
 		}
-		bw.flush();
-		bw.close();
-		fw.close();
-		System.out.println("data all clear");
-//		if(DF.exists()) {
-//			DF.delete();
-//			if(DF.exists()) {
-//				System.gc();
-//				DF.delete();
-//				if(DF.exists()) {
-//					System.gc();
-//					System.runFinalization();
-//					DF.delete();
-//					if(DF.exists()) {
-//						System.out.println("delete to failed"); 
-//					}
-//					else {
-//						System.out.println("deleted File");
-//					}
-//				}
-//			}
-//		}
 	}
 		
-	
+	public void recommend() {
+		clear();
+		line30();
+		System.out.println("Genre Recommend");
+		System.out.println("what are you want genre");
+		line30();
+		System.out.println("1--> 액션");
+		System.out.println("2--> 코미디");
+		System.out.println("3--> 공포");
+		System.out.println("4--> SF");
+		System.out.println("5--> 스릴러");
+		System.out.println("6--> 판타지");
+		System.out.println("7--> 로맨스");
+		System.out.println("8--> 음악");
+		System.out.println("9--> 뮤지컬");
+		System.out.println("10--> 범죄");
+		System.out.println("11--> 스포츠");
+		line30();
+		int input=select(11, "-->");
+		String genre=null;
+		int range=0;
+		int [] Random = null;
+		switch(input) {
+			case 1:
+				genre="액션";
+				break;
+			case 2:
+				genre="코미디";
+				break;
+			case 3:
+				genre="공포";
+				break;
+			case 4:
+				genre="SF";
+				break;
+			case 5:
+				genre="스릴러";
+				break;
+			case 6:
+				genre="판타지";
+				break;
+			case 7:
+				genre="로맨스";
+				break;
+			case 8:
+				genre="음악";
+				break;
+			case 9:
+				genre="뮤지컬";
+				break;
+			case 10:
+				genre="범죄";
+				break;
+			case 11:
+				genre="스포츠";
+				break;
+		}
+		try {
+			for(int i=0; i<MovieAl.size(); i++) {
+				if(genre.equals(MovieAl.get(i).MovieGenre)) {
+					range+=1;
+					Random=new int [range];
+					Random[range]=i;
+				}
+			}
+			int ran=((int) Math.random()*range)+1;
+			ran=Random[ran];
+			MovieAl.get(ran).getname();
+		}catch(Exception e){
+			System.out.println("ERRER");
+		}
+	}
 	
 	public void delay() {
 		line30();
