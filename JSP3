@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>tag값 전송</title>
+	</head>
+	<body>
+		<div id="wrap">
+			<p> 일반 p 태그의 값 전송</p>
+			<form method="post" action="submit.jsp">
+				<input type="hidden" name="ptag" id="hiddentag">				
+				<input type="submit" value="전송!">
+			</form>
+		</div>
+		<script>
+			let wrap=document.getElementById("wrap");
+			let patg=wrap.gwetElementsByTagName("p")[0];
+			let value=ptag.innerHTML;
+			console.log(value);
+			
+			let hidden=document.getElementById("hiddentag");
+			hidden.value=value;
+		</script>
+	</body>
+</html>
