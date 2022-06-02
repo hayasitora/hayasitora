@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>회원가입</title>
+		<style>
+			#all_line{
+			margin:0 auto;
+			width:300px;
+			border:5px solid lightgray;
+			}
+			#all_line input{
+				width:70%;
+			}
+			#all_line fieldset input{
+				width:15px;
+			}
+			#all_line > form > input:last-child{
+				display:block;
+				margin:0 auto;
+			}
+			input[name="id"]{
+				margin-left:48px;
+			}
+			input[name="name"]{
+				margin-left:32px;
+			}
+			input[name="tel"]{
+				margin-left:16px;
+			}
+		</style> 
+	</head>
+	<body>
+	
+		<div id="all_line">
+			<h1>회원가입</h1>
+			<form method="post" action="welcomeworld">
+			<!-- <hr>은 line태그 -->
+			<hr>
+				<p>ID:<input type="text"name="ID" placeholder="ID를 입력해주세요"></p>
+				<p>비밀번호:<input type="password"name="password" placeholder="비밀번호를 입력해주세요"></p>
+				<p>이름:<input type="text" name="name" placeholder="이름을 입력해주세요"></p>
+				<p>연락처:<input type="tel" name="tel" placeholder="연락처를 기입해주세요"></p>
+				<fieldset>
+					<legend>관심분야</legend>
+					JAVA<input type="radio" name="subject" value="java">
+					HTML<input type="radio" name="subject" value="HTML">
+					IOT<input type="radio" name="subject" value="IOT"> 
+				</fieldset>
+				<fieldset>
+					<legend>수강과목</legend>
+					JSP<input type="checkbox" name="JSP">
+					Android<input type="checkbox" name="android">
+				</fieldset>
+				<input type="submit" value="회원가입">
+				<hr>
+				</form>
+		</div>
+	</body>
+</html>
