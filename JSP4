@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>전송확인</title>
+	</head>
+	<body>
+		<%
+			request.setCharacterEncoding("utf-8");
+			//request.setCharacterEncoding("utf-8")로 하면 글자가 깨지지 않고 한국어로 고스란히 들어올수 있다.
+			String ptag= request.getParameter("ptag");
+		%>
+		<h1> 전송받은값 <%=ptag %></h1>
+	</body>
+</html>
