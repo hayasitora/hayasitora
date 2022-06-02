@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>데이터 확인</title>
+	</head>
+	<body>
+		<%
+			String id=request.getParameter("id");
+			String password=request.getParameter("password");
+			String name=request.getParameter("name");
+			String tel=request.getParameter("tel");
+			String subject=request.getParameter("subject");
+			String jsp=request.getParameter("JSP");
+			String android=request.getParameter("android");
+		%>
+		<table>
+			<tr>
+				<td>아이디</td>
+				<td><%=id %></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><%=password %></td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td><%=name %></td>
+			</tr>
+			<tr>
+				<td>연락처</td>
+				<td><%=tel %></td>
+			</tr>
+			<tr>
+				<td>관심분야</td>
+				<td><%=subject %></td>
+			</tr>
+			<tr>
+				<td>JSP 수강여부</td>
+				<td><%=jsp %></td>
+			</tr>
+			<tr>
+				<td>Android 수강여부</td>
+				<td><%=android %></td>
+			</tr>
+		</table>
+	</body>
+</html>
