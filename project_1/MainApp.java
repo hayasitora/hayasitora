@@ -31,9 +31,26 @@ public class Mainapp {
 }
 //Main menu class
 class Menu extends AbstractMenu{
-	Menu(){
-		
-		System.out.println("메뉴");
+	
+	void userMenu() {
+		int input=select(5, "-->");
+		switch(input) {
+		case 1: 
+			Reservation
+			break;
+		case 2: 
+			showReservation
+			break;
+		case 3: 
+			cancelReservation
+			break;
+		case 4:
+			recommendMovie
+			break;
+		case 5:
+			Admin();
+			break;
+		}
 	}
 	
 }
@@ -43,13 +60,11 @@ class Reservation{
 	
 }
 
-class RecommendMovie{
-	
-}
-
 //Seat class02
 class Seats{
-	
+	void set_Seats(){
+		int [][]row=new int [10][10];
+	}
 }
 
 //Abstract Class
