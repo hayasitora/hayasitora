@@ -477,7 +477,7 @@ abstract class AbstractMenu extends Thread{
 	
 	//Movie List Get [x]
 	public void MovieListGet()throws IOException {
-		RoadMovie();
+	
 		try {
 			System.out.println("Pless Enter The Movie Number");
 			int x=Integer.parseInt(Ser.readLine());
@@ -491,7 +491,7 @@ abstract class AbstractMenu extends Thread{
 	
 	//Movie List Get All
 	public void MovieListGetAll() throws IOException {
-		RoadMovie();
+		
 		try {
 			System.out.println("MovieList");
 			line30();
