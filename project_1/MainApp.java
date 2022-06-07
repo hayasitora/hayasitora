@@ -1,4 +1,4 @@
-package project_1;
+package project1;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.io.File;
 
 
-public class MainApp {
+public class Mainapp {
 
 	public static void main(String[] args) throws IOException {
 		Menu menu=new Menu();
+		menu.RoadMovie();
+		menu.MovieListGetAll();
 		menu.userMenu();
 	}
 
@@ -27,8 +29,8 @@ class Menu extends AbstractMenu{
 	boolean userbool=true;
 	Reservation rv=new Reservation();
 	void userMenu() throws NumberFormatException, IOException {
-		
 		while(userbool==true) {
+			
 			clear();
 			line30();
 			System.out.println("UserMenu");
@@ -107,11 +109,12 @@ class Reservation extends AbstractMenu{
 		return realtime;
 	}
 	void setReservation() throws NumberFormatException, IOException {
-		try {
+			resetMovie();
+			RoadMovie();
 			MovieListGetAll();
 			System.out.println("select movie");
 			int input=Integer.parseInt(Ser.readLine());
-			st.mn=MovieAl.get(input).MovieName;
+			st.mn=MovieAl.get(input-1).MovieName;
 			clear();
 			st.ReservationSeat();
 	
@@ -120,7 +123,7 @@ class Reservation extends AbstractMenu{
 			
 	 		FileWriter fw=new FileWriter(path+"\\Reservation.txt",true);
 			BufferedWriter bw=new BufferedWriter(fw);
-			String result=setStamp()+"-"+st.mn+"-"+st.userA+"-"+Integer.toString(st.row);
+			String result=setStamp()+"-"+st.mn+"-"+st.userA+"-"+Integer.toString(st.row-1);
 			System.out.println("Ticket:"+result);
 			bw.write(result+"\r");
 			bw.flush();
@@ -128,9 +131,6 @@ class Reservation extends AbstractMenu{
 			fw.close();
 			bos.close();
 			fos.close();
-		}catch(Exception e) {
-			System.out.println("None movie");
-		}
 		
 	}
 	void showTicket() throws IOException {
@@ -232,6 +232,24 @@ class Seats extends AbstractMenu{
 			System.out.println("none Seat");
 		}
 	}
+	void RoadSeat2()throws IOException{
+		try {
+			FileReader fr=new FileReader(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8);
+			BufferedReader br=new BufferedReader(fr);
+			String Line;
+			int C=1;
+			while( (Line=br.readLine())!=null) {
+				for(int i=0; i<show.length; i++) {
+					show[C][i+1]=Line.charAt(i);
+				}C++;
+			}
+			
+			br.close();
+			fr.close();
+			}catch(Exception e) {
+				System.out.println("none Seat");
+			}
+	}
 	void cancleSeats(String MN,char a,int b) throws IOException {
 		try {
 		String str;
@@ -277,7 +295,7 @@ class Seats extends AbstractMenu{
 		try {
 			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
 			BufferedOutputStream bos=new BufferedOutputStream(fos);
-			FileWriter fw=new FileWriter(path,false);
+			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
 			BufferedWriter bw=new BufferedWriter(fw);
 			
 			for(int i=1; i<show.length;i++) {
@@ -292,6 +310,7 @@ class Seats extends AbstractMenu{
 				}bw.write("\r");
 			}
 			bw.flush();
+			
 			bw.close();
 			fw.close();
 			bos.close();
@@ -304,10 +323,13 @@ class Seats extends AbstractMenu{
 	}
 	void ReservationSeat() throws IOException{
 		try {
-			set_Seats();
-			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",true);
+			File f=new File(path+"\\"+mn+"seat.txt");
+			if(f.exists()==false) {
+				set_Seats();				
+			}
+			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
 			BufferedOutputStream bos=new BufferedOutputStream(fos);
-			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",true);
+			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
 			BufferedWriter bw=new BufferedWriter(fw);
 			System.out.println("where you seat in the Room");
 			line40();
@@ -319,7 +341,7 @@ class Seats extends AbstractMenu{
 			System.out.println("select Line");
 			int b=Integer.parseInt(Ser.readLine());
 			row = 0;
-			int line=b+1;
+			
 			char L;
 			for(int i=1; i<show.length; i++) {
 				 L= (char) ('A'+i-1);
@@ -328,7 +350,7 @@ class Seats extends AbstractMenu{
 				break;
 				}
 			}
-			show[row][line]='X';
+			show[row][b]='X';
 			for(int i=1; i<show.length; i++) {
 				for(int j=1; j<show.length; j++) {
 					bw.write(show[i][j]);
@@ -343,7 +365,8 @@ class Seats extends AbstractMenu{
 			System.out.println("none movie");
 		}
 	}
-	void showSeat() {
+	void showSeat() throws IOException {
+		RoadSeat2();
 		for(int i=0; i<show.length;i++) {
 			for(int j=0; j<show.length; j++) {
 				System.out.print("|"+show[i][j]+"\s");
@@ -381,6 +404,9 @@ abstract class AbstractMenu extends Thread{
 			System.out.println("Data is notthing");
 		}
 		
+	}
+	void resetMovie() {
+		MovieAl.removeAll(MovieAl);
 	}
 	//get value method
 	public int select(int userchoice,String pup) {
@@ -477,7 +503,6 @@ abstract class AbstractMenu extends Thread{
 	
 	//Movie List Get [x]
 	public void MovieListGet()throws IOException {
-	
 		try {
 			System.out.println("Pless Enter The Movie Number");
 			int x=Integer.parseInt(Ser.readLine());
@@ -491,7 +516,6 @@ abstract class AbstractMenu extends Thread{
 	
 	//Movie List Get All
 	public void MovieListGetAll() throws IOException {
-		
 		try {
 			System.out.println("MovieList");
 			line30();
@@ -640,8 +664,9 @@ abstract class AbstractMenu extends Thread{
 		}
 	}
 		
-	public void recommend() {
-		
+	public void recommend() throws IOException {
+		resetMovie();
+		RoadMovie();
 		line30();
 		System.out.println("Genre Recommend");
 		System.out.println("what are you want genre");
@@ -661,7 +686,7 @@ abstract class AbstractMenu extends Thread{
 		int input=select(11, "-->");
 		String genre=null;
 		int range=0;
-		int [] Random = null;
+		
 		switch(input) {
 			case 1:
 				genre="액션";
@@ -697,20 +722,30 @@ abstract class AbstractMenu extends Thread{
 				genre="스포츠";
 				break;
 		}
-		try {
+		clear();
+//		try {
 			for(int i=0; i<MovieAl.size(); i++) {
 				if(genre.equals(MovieAl.get(i).MovieGenre)) {
 					range+=1;
-					Random=new int [range];
-					Random[range]=i;
 				}
 			}
-			int ran=((int) Math.random()*range)+1;
+			int [] Random = new int [range];
+			range=0;
+			for(int i=0; i<MovieAl.size(); i++) {
+				if(genre.equals(MovieAl.get(i).getMovieGenre())){
+					Random[range]=i;
+					range+=1;
+				}
+			}
+			
+			
+			int ran=((int) Math.random()*range);
 			ran=Random[ran];
+			System.out.println(ran);
 			MovieAl.get(ran).getname();
-		}catch(Exception e){
-			System.out.println("Movie is nonthing");
-		}
+//		}catch(Exception e){
+//			System.out.println("Movie is nonthing");
+//		}
 	}
 	
 	public void delay() {
@@ -748,19 +783,20 @@ class AdminMenu extends AbstractMenu{
 	void AdminMenuRun() throws IOException{
 		boolean Runner=true;
 		while(Runner==true){
+			
 		Menu menu=new Menu();
 		
 		clear();
 		System.out.println("Admin Menu");
 		line30();
 		
-		System.out.println("1--> Set Movie");
-		System.out.println("2--> Get Movie");
-		System.out.println("3--> Movie List All");
-		System.out.println("4--> Delect Movie");
-		System.out.println("5--> Delect Movie List");
-		System.out.println("6--> Back UserMenu");
-		System.out.println("7--> EXIT");
+		System.out.println("[1]--> Set Movie");
+		System.out.println("[2]--> Get Movie");
+		System.out.println("[3]--> Movie List All");
+		System.out.println("[4]--> Delect Movie");
+		System.out.println("[5]--> Delect Movie List");
+		System.out.println("[6]--> Back UserMenu");
+		System.out.println("[7]--> EXIT");
 		int input=select(7, "-->");
 		switch(input) {
 		case 1: 
