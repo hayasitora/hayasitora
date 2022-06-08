@@ -18,8 +18,6 @@ public class Mainapp {
 
 	public static void main(String[] args) throws IOException {
 		Menu menu=new Menu();
-		menu.RoadMovie();
-		menu.MovieListGetAll();
 		menu.userMenu();
 	}
 
@@ -40,7 +38,8 @@ class Menu extends AbstractMenu{
 			System.out.println("[3]--CancleTicket");
 			System.out.println("[4]--Recoomend_Movie");
 			System.out.println("[5]--AdminMenu");
-			int input=select(5, "-->");
+			System.out.println("[6]--Exit");
+			int input=select(6, "-->");
 			switch(input) {
 			case 1: 
 				clear();
@@ -65,6 +64,13 @@ class Menu extends AbstractMenu{
 			case 5:
 				clear();
 				Admin();
+				userbool=false;
+				break;
+				
+			case 6:
+				clear();
+				System.out.println("EXIT");
+				userbool=false;
 				break;
 			}
 		}
@@ -94,23 +100,9 @@ class Reservation extends AbstractMenu{
 		String Rf=Integer.toString(f);
 		
 		String realtime=Ra+Rb+Rc+Rd+Re+Rf;
-		FileOutputStream fos=new FileOutputStream(path+"\\time.txt",false);
-		BufferedOutputStream bos=new BufferedOutputStream(fos);
-		
-		
-		FileWriter fw=new FileWriter(path+"\\time.txt");
-		BufferedWriter bw=new BufferedWriter(fw);
-		bw.write(realtime);
-		bw.flush();
-		bw.close();
-		fw.close();
-		bos.close();
-		fos.close();
 		return realtime;
 	}
 	void setReservation() throws NumberFormatException, IOException {
-			resetMovie();
-			RoadMovie();
 			MovieListGetAll();
 			System.out.println("select movie");
 			int input=Integer.parseInt(Ser.readLine());
@@ -123,7 +115,7 @@ class Reservation extends AbstractMenu{
 			
 	 		FileWriter fw=new FileWriter(path+"\\Reservation.txt",true);
 			BufferedWriter bw=new BufferedWriter(fw);
-			String result=setStamp()+"-"+st.mn+"-"+st.userA+"-"+Integer.toString(st.row-1);
+			String result=setStamp()+"-"+st.mn+"-"+st.userA+"-"+Integer.toString(st.b);
 			System.out.println("Ticket:"+result);
 			bw.write(result+"\r");
 			bw.flush();
@@ -134,7 +126,7 @@ class Reservation extends AbstractMenu{
 		
 	}
 	void showTicket() throws IOException {
-		try {
+		
 			FileReader fr=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
 			String str;
@@ -145,12 +137,8 @@ class Reservation extends AbstractMenu{
 			line30();
 			br.close();
 			fr.close();
-		}catch(Exception e) {
-			System.out.println("None Ticket");
-		}
 		}
 	void CancleTicket() throws IOException {
-		try {
 			FileReader fr=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
 			showTicket();
@@ -198,9 +186,7 @@ class Reservation extends AbstractMenu{
 			fw.close();
 			bos.close();
 			fos.close();
-	}catch(Exception e) {
-		System.out.println("None ticket");
-	}
+
 	}
 }
 
@@ -210,7 +196,7 @@ class Seats extends AbstractMenu{
 	int a=0;
 	String mn;
 	char userA;
-	int row;
+	int b;
 	char [][]show=new char[11][11];
 	void RoadSeat()throws IOException {
 		try {
@@ -221,7 +207,7 @@ class Seats extends AbstractMenu{
 		String Line;
 		int C=1;
 		while( (Line=br.readLine())!=null) {
-			for(int i=0; i<show.length; i++) {
+			for(int i=0; i<10; i++) {
 				show[C][i+1]=Line.charAt(i);
 			}C++;
 		}
@@ -233,22 +219,19 @@ class Seats extends AbstractMenu{
 		}
 	}
 	void RoadSeat2()throws IOException{
-		try {
+		
 			FileReader fr=new FileReader(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
 			String Line;
 			int C=1;
 			while( (Line=br.readLine())!=null) {
-				for(int i=0; i<show.length; i++) {
+				for(int i=0; i<10; i++) {
 					show[C][i+1]=Line.charAt(i);
 				}C++;
 			}
 			
 			br.close();
 			fr.close();
-			}catch(Exception e) {
-				System.out.println("none Seat");
-			}
 	}
 	void cancleSeats(String MN,char a,int b) throws IOException {
 		try {
@@ -281,6 +264,8 @@ class Seats extends AbstractMenu{
 				bw.write(show[i][j]);
 			}bw.write("\r");
 		}
+		bw.flush();
+		
 		bw.close();
 		fw.close();
 		bos.close();
@@ -291,57 +276,77 @@ class Seats extends AbstractMenu{
 				
 				
 	}
-	void set_Seats() throws IOException{
-		try {
+	void set_Seats() throws IOException{		
 			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
 			BufferedOutputStream bos=new BufferedOutputStream(fos);
 			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
 			BufferedWriter bw=new BufferedWriter(fw);
-			
-			for(int i=1; i<show.length;i++) {
-				
+			for(int i=1; i<11;i++) {
 				show[0][i]=(char)('0'+i-1);
 				show[i][0]=(char)('A'+i-1);
 			}
-			for(int i=1; i<show.length; i++) {
-				for(int j=1; j<show.length; j++) {			
+			for(int i=1; i<11; i++) {
+				for(int j=1; j<11; j++) {			
 					show[i][j]='O';	
 					bw.write(show[i][j]);
 				}bw.write("\r");
 			}
-			bw.flush();
-			
+			bw.flush();	
 			bw.close();
 			fw.close();
 			bos.close();
-			fos.close();
-		
-		}catch(Exception e) {
-			System.out.println("none movie");
-		}
-		
+			fos.close();	
 	}
+	
 	void ReservationSeat() throws IOException{
 		try {
-			File f=new File(path+"\\"+mn+"seat.txt");
-			if(f.exists()==false) {
-				set_Seats();				
+			RoadSeat2();
+			for(int i=1; i<11;i++) {
+				show[0][i]=(char)('0'+i-1);
+				show[i][0]=(char)('A'+i-1);
 			}
-			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
-			BufferedOutputStream bos=new BufferedOutputStream(fos);
-			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
-			BufferedWriter bw=new BufferedWriter(fw);
+		}catch(IOException e) {
+			set_Seats();
+		}
 			System.out.println("where you seat in the Room");
 			line40();
 			showSeat();
 			line40();
+			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
+			BufferedOutputStream bos=new BufferedOutputStream(fos);
+			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
+			BufferedWriter bw=new BufferedWriter(fw);
+			
+			char[]c=new char[10];
+			for(int i=0; i<c.length; i++) {
+				c[i]=(char)('A'+i);
+			}
+			boolean k=true;
+			while(k==true) {
+			
 			System.out.println("select Row");
 			String a=Ser.readLine();
 			userA=a.charAt(0);
+			for(int i=0; i<c.length; i++) {
+				if(userA==c[i]) {
+					k=false;
+					break;
+				}
+			}
+			System.out.println("input Capital A~J");
+			}
+			k=true;
+			while(k==true) {
 			System.out.println("select Line");
-			int b=Integer.parseInt(Ser.readLine());
-			row = 0;
-			
+			 b=Integer.parseInt(Ser.readLine());
+			 if(b<10&&b>-1) {
+				 k=false;
+			 }
+			 else {
+				 System.out.println("input number 0~9");
+			 }
+			}
+			 int row = 0;
 			char L;
 			for(int i=1; i<show.length; i++) {
 				 L= (char) ('A'+i-1);
@@ -357,13 +362,12 @@ class Seats extends AbstractMenu{
 				}bw.write("\r");
 			}
 			bw.flush();
+			
 			bw.close();
 			fw.close();
 			bos.close();
 			fos.close();
-		}catch(Exception e) {
-			System.out.println("none movie");
-		}
+		
 	}
 	void showSeat() throws IOException {
 		RoadSeat2();
@@ -503,20 +507,21 @@ abstract class AbstractMenu extends Thread{
 	
 	//Movie List Get [x]
 	public void MovieListGet()throws IOException {
-		try {
+			resetMovie();
+			RoadMovie();
 			System.out.println("Pless Enter The Movie Number");
 			int x=Integer.parseInt(Ser.readLine());
 			x=x-1;
 			Movie a=new Movie(MovieAl.get(x).count,MovieAl.get(x).MovieName,MovieAl.get(x).MovieGenre);
 			a.getname();
-		}catch(ArrayIndexOutOfBoundsException e ) {
-			System.out.println("None movie");
-		}
+		
 	}
 	
 	//Movie List Get All
 	public void MovieListGetAll() throws IOException {
 		try {
+			resetMovie();
+			RoadMovie();
 			System.out.println("MovieList");
 			line30();
 			for(int i=0; i<MovieAl.size();i++) {
@@ -528,9 +533,8 @@ abstract class AbstractMenu extends Thread{
 		}
 	}
 	//Movie remove
+	@SuppressWarnings("unlikely-arg-type")
 	public void Remove_Movie()throws IOException{
-		
-		try {
 			MovieListGetAll();
 			System.out.println("Enter Remove Number");
 			int x=Integer.parseInt(Ser.readLine());
@@ -538,13 +542,14 @@ abstract class AbstractMenu extends Thread{
 			Seats seat=new Seats();
 			seat.mn=mona;
 			seat.set_Seats();
+			try {
 			FileReader ar=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
 			BufferedReader aor=new BufferedReader(ar);
 			String ae;
 			ArrayList<String> as=new ArrayList<String>();
 			while((ae=aor.readLine())!=null) {
 				String [] es=ae.split("-");
-				if(es[1].equals(mona)) {
+				if(es[0].equals(x-1)) {
 					
 				}else{
 					as.add(ae);
@@ -552,7 +557,7 @@ abstract class AbstractMenu extends Thread{
 			}
 			aor.close();
 			ar.close();
-					
+			
 			FileOutputStream aos=new FileOutputStream(path+"\\Reservation.txt",false);
 			BufferedOutputStream abos=new BufferedOutputStream(aos);
 			FileWriter aw=new FileWriter(path+"\\Reservation.txt",false);
@@ -568,17 +573,26 @@ abstract class AbstractMenu extends Thread{
 			aw.close();
 			abos.close();
 			aos.close();
+			}catch(IOException e) {
+				System.out.println("This movie None Ticket");
+			}
 			MovieAl.remove(x-1);
 			
-			FileReader fr=new FileReader(path+"\\data.txt");
+			FileReader fr=new FileReader(path+"\\data.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
 			ArrayList<String> TemporData=new ArrayList<String>();
 			String d=null;
+			String [] a=new String [3];
+			count=1;
+			String k=Integer.toString(x);
 			while((d=br.readLine())!=null) {
-				TemporData.add(d);
+				a=d.split(",");
+				if(k==a[0]) {
+				}else {
+					TemporData.add(count+","+a[1]+","+a[2]);
+					count++;
+				}
 			}
-			//이렇게 지우면 랭크 겹침 for문으로 겹친거 없는숫자를 입력해서 넣어야함
-			
 			TemporData.remove(x-1);
 			br.close();
 			fr.close();
@@ -591,9 +605,7 @@ abstract class AbstractMenu extends Thread{
 			bw.flush();
 			bw.close();
 			fw.close();
-		}catch(Exception e) {
-			System.out.println("Delect Movie is none");
-		}
+		
 	}
 	public void Remove_MovieAll() throws IOException {
 	
@@ -726,7 +738,7 @@ abstract class AbstractMenu extends Thread{
 //		try {
 			for(int i=0; i<MovieAl.size(); i++) {
 				if(genre.equals(MovieAl.get(i).MovieGenre)) {
-					range+=1;
+					range++;
 				}
 			}
 			int [] Random = new int [range];
@@ -734,7 +746,7 @@ abstract class AbstractMenu extends Thread{
 			for(int i=0; i<MovieAl.size(); i++) {
 				if(genre.equals(MovieAl.get(i).getMovieGenre())){
 					Random[range]=i;
-					range+=1;
+					range++;
 				}
 			}
 			
@@ -767,12 +779,12 @@ abstract class AbstractMenu extends Thread{
 		String PW=Ser.readLine();
 		if(PW.equals(password)) {
 			AdminMenu am=new AdminMenu();
-			Menu a=new Menu();
-			a.userbool=false;
 			am.AdminMenuRun();
 		}
 		else {
 			System.out.println("password is worng");
+			Menu m=new Menu();
+			m.userMenu();
 		}
 	}
 }
@@ -832,6 +844,8 @@ class AdminMenu extends AbstractMenu{
 		case 7:
 			clear();
 			Runner=false;
+			System.out.println("EXIT");
+			break;
 		}
 		}
 	}
