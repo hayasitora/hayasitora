@@ -104,16 +104,15 @@ class Reservation extends AbstractMenu{
 	}
 	void setReservation() throws NumberFormatException, IOException {
 			MovieListGetAll();
+			try {
+			
 			System.out.println("select movie");
 			int input=Integer.parseInt(Ser.readLine());
 			st.mn=MovieAl.get(input-1).MovieName;
 			clear();
 			st.ReservationSeat();
-	
-			FileOutputStream fos=new FileOutputStream (path+"\\Reservation.txt",true);
-			BufferedOutputStream bos=new BufferedOutputStream(fos);
-			
-	 		FileWriter fw=new FileWriter(path+"\\Reservation.txt",true);
+		
+	 		FileWriter fw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,true);
 			BufferedWriter bw=new BufferedWriter(fw);
 			String result=setStamp()+"-"+st.mn+"-"+st.userA+"-"+Integer.toString(st.b);
 			System.out.println("Ticket:"+result);
@@ -121,9 +120,9 @@ class Reservation extends AbstractMenu{
 			bw.flush();
 			bw.close();
 			fw.close();
-			bos.close();
-			fos.close();
-		
+			}catch(IOException e) {
+				System.out.println("none Movie");
+			}
 	}
 	void showTicket() throws IOException {
 		
@@ -169,10 +168,8 @@ class Reservation extends AbstractMenu{
 			}
 			br.close();
 			fr.close();
-			FileOutputStream fos=new FileOutputStream(path+"\\Reservation.txt",false);
-			BufferedOutputStream bos=new BufferedOutputStream(fos);
 			
-			FileWriter fw=new FileWriter(path+"\\Reservation.txt");
+			FileWriter fw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8);
 			BufferedWriter bw=new BufferedWriter(fw);
 			for(int i=0; i<ae.length; i++) {
 				if(player.equals(ae[k])) {
@@ -184,8 +181,6 @@ class Reservation extends AbstractMenu{
 			bw.flush();
 			bw.close();
 			fw.close();
-			bos.close();
-			fos.close();
 
 	}
 }
@@ -247,10 +242,10 @@ class Seats extends AbstractMenu{
 		}
 		br.close();
 		fr.close();
-		FileOutputStream fos=new FileOutputStream (path+"\\"+MN+"seat.txt",false);
-		BufferedOutputStream bos=new BufferedOutputStream(fos);
+//		FileOutputStream fos=new FileOutputStream (path+"\\"+MN+"seat.txt",false);
+//		BufferedOutputStream bos=new BufferedOutputStream(fos);
 		
-		FileWriter fw=new FileWriter(path+"\\"+MN+"seat.txt",false);
+		FileWriter fw=new FileWriter(path+"\\"+MN+"seat.txt",StandardCharsets.UTF_8,false);
 		BufferedWriter bw=new BufferedWriter(fw);	
 		int sel=0;
 		String d=Character.toString(a);
@@ -268,8 +263,8 @@ class Seats extends AbstractMenu{
 		
 		bw.close();
 		fw.close();
-		bos.close();
-		fos.close();
+//		bos.close();
+//		fos.close();
 		}catch(Exception e) {
 			System.out.println("none seat");
 		}
@@ -314,7 +309,7 @@ class Seats extends AbstractMenu{
 			line40();
 			FileOutputStream fos=new FileOutputStream(path+"\\"+mn+"seat.txt",false);
 			BufferedOutputStream bos=new BufferedOutputStream(fos);
-			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",false);
+			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8,false);
 			BufferedWriter bw=new BufferedWriter(fw);
 			
 			char[]c=new char[10];
@@ -327,13 +322,11 @@ class Seats extends AbstractMenu{
 			System.out.println("select Row");
 			String a=Ser.readLine();
 			userA=a.charAt(0);
-			for(int i=0; i<c.length; i++) {
-				if(userA==c[i]) {
+				if('A'<=userA&&'J'>=userA) {
 					k=false;
-					break;
+				}else {
+					System.out.println("input Capital A~J");
 				}
-			}
-			System.out.println("input Capital A~J");
 			}
 			k=true;
 			while(k==true) {
@@ -390,7 +383,7 @@ abstract class AbstractMenu extends Thread{
 	
 	void RoadMovie() throws IOException{
 		try {
-			FileReader fr=new FileReader(path+"\\data.txt");
+			FileReader fr=new FileReader(path+"\\data.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
 			String [] a=new String [3];
 			String s=null;
@@ -476,7 +469,7 @@ abstract class AbstractMenu extends Thread{
 		BufferedOutputStream bos=new BufferedOutputStream(fos);
 		
 		//writer Movie List
-		FileWriter fw=new FileWriter(path+"\\data.txt",true);
+		FileWriter fw=new FileWriter(path+"\\data.txt",StandardCharsets.UTF_8,true);
 		BufferedWriter bw=new BufferedWriter(fw); 
 		
 		FileReader fr=new FileReader(path+"\\data.txt");
@@ -530,6 +523,7 @@ abstract class AbstractMenu extends Thread{
 			line30();
 		}catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println("None Movie");
+			
 		}
 	}
 	//Movie remove
@@ -558,9 +552,9 @@ abstract class AbstractMenu extends Thread{
 			aor.close();
 			ar.close();
 			
-			FileOutputStream aos=new FileOutputStream(path+"\\Reservation.txt",false);
-			BufferedOutputStream abos=new BufferedOutputStream(aos);
-			FileWriter aw=new FileWriter(path+"\\Reservation.txt",false);
+//			FileOutputStream aos=new FileOutputStream(path+"\\Reservation.txt",false);
+//			BufferedOutputStream abos=new BufferedOutputStream(aos);
+			FileWriter aw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
 			BufferedWriter aow=new BufferedWriter(aw);
 			
 			for(int i=0; i<as.size(); i++) {
@@ -571,8 +565,8 @@ abstract class AbstractMenu extends Thread{
 			aow.flush();
 			aow.close();
 			aw.close();
-			abos.close();
-			aos.close();
+//			abos.close();
+//			aos.close();
 			}catch(IOException e) {
 				System.out.println("This movie None Ticket");
 			}
@@ -584,10 +578,9 @@ abstract class AbstractMenu extends Thread{
 			String d=null;
 			String [] a=new String [3];
 			count=1;
-			String k=Integer.toString(x);
 			while((d=br.readLine())!=null) {
 				a=d.split(",");
-				if(k==a[0]) {
+				if(mona==a[1]) {
 				}else {
 					TemporData.add(count+","+a[1]+","+a[2]);
 					count++;
@@ -596,7 +589,7 @@ abstract class AbstractMenu extends Thread{
 			TemporData.remove(x-1);
 			br.close();
 			fr.close();
-			FileWriter fw=new FileWriter(path+"\\data.txt",false);
+			FileWriter fw=new FileWriter(path+"\\data.txt",StandardCharsets.UTF_8,false);
 			BufferedWriter bw=new BufferedWriter(fw);
 			for(int i=0; i<TemporData.size();i++) {
 				bw.write(TemporData.get(i)+"\r");
@@ -610,44 +603,46 @@ abstract class AbstractMenu extends Thread{
 	public void Remove_MovieAll() throws IOException {
 	
 		try {
+			resetMovie();
+			RoadMovie();
 			for(int i=0; i<MovieAl.size(); i++) {
 				String a=MovieAl.get(i).MovieName;
-				FileOutputStream fs=new FileOutputStream(path+"\\"+a+"seat.txt",false);
-				BufferedOutputStream bs=new BufferedOutputStream(fs);
-				FileWriter fa=new FileWriter(path+a+"seat.txt",false);
+//				FileOutputStream fs=new FileOutputStream(path+"\\"+a+"seat.txt",false);
+//				BufferedOutputStream bs=new BufferedOutputStream(fs);
+				FileWriter fa=new FileWriter(path+"\\"+a+"seat.txt",StandardCharsets.UTF_8,false);
 				BufferedWriter ba=new BufferedWriter(fa);
 				ba.write("");
 				ba.flush();
 				ba.close();
 				fa.close();
-				bs.close();
-				fs.close();
+//				bs.close();
+//				fs.close();
 			}
-			FileOutputStream aos=new FileOutputStream(path+"\\Reservation.txt",false);
-			BufferedOutputStream bos=new BufferedOutputStream(aos);
-			FileWriter aw=new FileWriter(path+"\\Reservation.txt",false);
+//			FileOutputStream aos=new FileOutputStream(path+"\\Reservation.txt",false);
+//			BufferedOutputStream bos=new BufferedOutputStream(aos);
+			FileWriter aw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
 			BufferedWriter sw=new BufferedWriter(aw);
 			sw.write("");
 			sw.flush();
 			sw.close();
 			aw.close();
-			bos.close();
-			aos.close();
+//			bos.close();
+//			aos.close();
 			MovieAl.removeAll(MovieAl);
 			
-			FileReader fr=new FileReader(path+"\\data.txt");
-			BufferedReader br=new BufferedReader(fr);
-			int e=0;
-			while(br.readLine()!=null) {
-				e++;
-			}	
-			br.close();
-			fr.close();
-			FileWriter fw=new FileWriter(path+"\\data.txt",false);
+//			FileReader fr=new FileReader(path+"\\data.txt");
+//			BufferedReader br=new BufferedReader(fr);
+//			int e=0;
+//			while(br.readLine()!=null) {
+//				e++;
+//			}	
+//			br.close();
+//			fr.close();
+			FileWriter fw=new FileWriter(path+"\\data.txt",StandardCharsets.UTF_8,false);
 			BufferedWriter bw=new BufferedWriter(fw);
-			for(int i=0; i<e;i++) {
+//			for(int i=0; i<e;i++) {
 				bw.write("");
-			}
+//			}
 			bw.flush();
 			bw.close();
 			fw.close();
