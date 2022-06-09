@@ -1,4 +1,4 @@
-package project1;
+package project_1;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 
-public class Mainapp {
+public class MainApp {
 
 	public static void main(String[] args) throws IOException {
 		Menu menu=new Menu();
@@ -27,6 +27,7 @@ public class Mainapp {
 //Main menu class
 class Menu extends AbstractMenu{
 	boolean userbool=true;
+	
 	Reservation rv=new Reservation();
 	void userMenu() throws NumberFormatException, IOException {
 		while(userbool==true) {
@@ -149,48 +150,116 @@ class Reservation extends AbstractMenu{
 		try {
 			FileReader fr=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
 			BufferedReader br=new BufferedReader(fr);
-		
 			showTicket();
-			System.out.println("what do you want cancle tikect");
-			System.out.print("code-->");
-			String code=Ser.readLine();
-			System.out.print("movie_Name-->");
-			String MN=Ser.readLine();
-			System.out.println("row-->");
-			String a=Ser.readLine();
-			char ro=a.charAt(0);
-			System.out.println("line-->");
-			int lin=Integer.parseInt(Ser.readLine());
-			String player=code+"-"+MN+"-"+ro+"-"+lin;
-			st.cancleSeats(MN, ro, lin);
-			String str;
-			String [] ae;
+			ArrayList<Seats> seat =new ArrayList<Seats>();
+			String SE=null;
+			String [] SEA=new String[4];
 			
-			int range=0;
-			while((br.readLine())!=null) {
-				range++;
+			while((SE=br.readLine())!=null){
+				SEA=SE.split("-");
+				Seats s=new Seats(SEA[0],SEA[1],SEA[2],SEA[3]);
+				seat.add(s);
 			}
-			int k=0;
-			ae=new String[range];
-			while((str=br.readLine())!=null) {
-				ae[k]=str;
-				k++;
-			}
-			br.close();
-			fr.close();
-			
-			FileWriter fw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8);
-			BufferedWriter bw=new BufferedWriter(fw);
-			for(int i=0; i<ae.length; i++) {
-				if(player.equals(ae[k])) {
-					
-				}else {
-					bw.write(ae[k]+"\r");
+			System.out.print("input tecket number");
+			String code = null;
+			String mn=null;
+			String Cr=null;
+			String Cl=null;
+
+			String Tn=Ser.readLine();
+			FileWriter re=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
+			BufferedWriter rw=new BufferedWriter(re);
+			for(int i=0; i<seat.size(); i++){
+				if(Tn.equals(seat.get(i).A)){
+					code=seat.get(i).A;
+					mn=seat.get(i).B;
+					Cr=seat.get(i).C;
+					Cl=seat.get(i).D;
+				seat.remove(i);}
+				else{
+				rw.write(code+"-"+mn+"-"+Cr+"-"+Cl);
 				}
 			}
+			rw.flush();
+			rw.close();
+			re.close();
+
+			FileReader fer=new FileReader(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8);
+			BufferedReader ber=new BufferedReader(fr);
+			String stb=null;
+
+			int cry=1;
+			while((stb=br.readLine())!=null){
+			for(int i=0; i<10; i++){
+				st.show[cry][i+1]=stb.charAt(i);
+				}cry++;
+			}
+			
+			ber.close();
+			fer.close();
+
+			FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8,false);
+			BufferedWriter bw=new BufferedWriter(fw);
+
+			st.userA=Cr.charAt(0);
+			int Ar=0;
+
+			for(int i=0;i<10;i++){
+			if(st.userA==('A'+i)){
+				Ar =i+1;
+				break;
+			}
+			}
+			int D=Integer.parseInt(Cl);
+			st.show[Ar][D]='O';
+
+			for(int i=1; i<11; i++){
+			for(int j=1; j<11; j++){
+				bw.write(st.show[i][j]);
+			}}
 			bw.flush();
 			bw.close();
 			fw.close();
+//			System.out.println("what do you want cancle tikect");
+//			System.out.print("code-->");
+//			String code=Ser.readLine();
+//			System.out.print("movie_Name-->");
+//			st.mn=Ser.readLine();
+//			System.out.println("row-->");
+//			String a=Ser.readLine();
+//			char ro=a.charAt(0);
+//			System.out.println("line-->");
+//			int lin=Integer.parseInt(Ser.readLine());
+//			String player=code+"-"+st.mn+"-"+ro+"-"+lin;
+//			st.cancleSeats(ro, lin);
+//			String str;
+//			String [] ae;
+//			
+//			int range=0;
+//			while((br.readLine())!=null) {
+//				range++;
+//			}
+//			int k=0;
+//			ae=new String[range];
+//			while((str=br.readLine())!=null) {
+//				ae[k]=str;
+//				k++;
+//			}
+//			br.close();
+//			fr.close();
+//			
+//			FileWriter fw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
+//			BufferedWriter bw=new BufferedWriter(fw);
+//			for(int i=0; i<ae.length; i++) {
+//				if(player.equals(ae[k])) {
+//					
+//				}else {
+//					bw.write(ae[k]+"\r");
+//				}
+//			}
+//			bw.flush();
+//			bw.close();
+//			fw.close();
 		}catch(FileNotFoundException e) {
 			System.out.println("none File");
 		}
@@ -204,6 +273,21 @@ class Seats extends AbstractMenu{
 	String mn;
 	char userA;
 	int b;
+	
+	String A=null;
+	String B=null;
+	String C=null;
+	String D=null;
+	Seats(){
+		
+	}
+	
+	Seats(String A, String B,String C,String D){
+		this.A=A;
+		this.B=B;
+		this.C=C;
+		this.D=D;
+	}
 	char [][]show=new char[11][11];
 	void RoadSeat()throws IOException {
 		try {
@@ -233,6 +317,7 @@ class Seats extends AbstractMenu{
 			int C=1;
 			while( (Line=br.readLine())!=null) {
 				for(int i=0; i<10; i++) {
+					
 					show[C][i+1]=Line.charAt(i);
 				}C++;
 			}
@@ -240,36 +325,22 @@ class Seats extends AbstractMenu{
 			br.close();
 			fr.close();
 		}catch(FileNotFoundException e) {
-			System.out.println("File None");
+			set_Seats();
 		}
 		}
-	void cancleSeats(String MN,char a,int b) throws IOException {
+	void cancleSeats(char a,int b) throws IOException {
 		try {
-		String str;
-		FileReader fr=new FileReader(path+"\\"+MN+"seat.txt",StandardCharsets.UTF_8);
-		BufferedReader br=new BufferedReader(fr);
-		for(int i=1; i<show.length;i++) {
-			str=br.readLine();
-			
-			for(int j=1; j<show.length; j++) {
-				show[i][j]=str.charAt(j);
-			}
-		}
-		br.close();
-		fr.close();
-
-		
-		FileWriter fw=new FileWriter(path+"\\"+MN+"seat.txt",StandardCharsets.UTF_8,false);
+		FileWriter fw=new FileWriter(path+"\\"+mn+"seat.txt",StandardCharsets.UTF_8,false);
 		BufferedWriter bw=new BufferedWriter(fw);	
 		int sel=0;
 		String d=Character.toString(a);
-		while(d.equals("A"+sel)) {
+		while(d.equals((String)("A"+sel))) {
 			sel++;
 		}
 		sel++;
 		show[sel][b]='O';
-		for(int i=0; i<show.length; i++) {
-			for(int j=0; j<show.length; j++) {
+		for(int i=1; i<show.length; i++) {
+			for(int j=1; j<show.length; j++) {
 				bw.write(show[i][j]);
 			}bw.write("\r");
 		}
@@ -313,7 +384,7 @@ class Seats extends AbstractMenu{
 				show[i][0]=(char)('A'+i-1);
 			}
 		}catch(IOException e) {
-			set_Seats();
+//			set_Seats();
 		}
 			System.out.println("where you seat in the Room");
 			line40();
@@ -360,7 +431,7 @@ class Seats extends AbstractMenu{
 				break;
 				}
 			}
-			show[row][b]='X';
+			show[row][b+1]='X';
 			for(int i=1; i<show.length; i++) {
 				for(int j=1; j<show.length; j++) {
 					bw.write(show[i][j]);
@@ -389,6 +460,7 @@ class Seats extends AbstractMenu{
 abstract class AbstractMenu extends Thread{
 	String path="MLdata\\MovieList";
 	ArrayList<Movie> MovieAl= new ArrayList<Movie>();
+	
 	BufferedReader Ser=new BufferedReader(new InputStreamReader(System.in));
 	boolean canReservation=true;
 	private int count=1;
@@ -731,6 +803,16 @@ class AdminMenu extends AbstractMenu{
 		System.out.println("Admin Menu");
 		line30();
 		
+		
+		
+//		genre=Ser.ReadLine();
+//
+//		String [] str=new String [MovieAl.size()];
+//		for(int i=0; i<MovieAl.size(); i++){
+//
+//			str[i]=MovieAl.get(i).MovieGenre;
+//				 
+//		}
 		System.out.println("[1]--> Set Movie");
 		System.out.println("[2]--> Get Movie");
 		System.out.println("[3]--> Movie List All");
