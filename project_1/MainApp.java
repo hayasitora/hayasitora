@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
-
+import java.util.Random;
 
 public class MainApp {
 
@@ -142,6 +142,7 @@ class Reservation extends AbstractMenu{
 			line30();
 			br.close();
 			fr.close();
+		
 			}catch(FileNotFoundException f) {
 				System.out.println("none File");
 			}
@@ -177,7 +178,7 @@ class Reservation extends AbstractMenu{
 					Cl=seat.get(i).D;
 				seat.remove(i);}
 				else{
-				rw.write(code+"-"+mn+"-"+Cr+"-"+Cl);
+				rw.write(code+"-"+mn+"-"+Cr+"-"+Cl+"\r");
 				}
 			}
 			rw.flush();
@@ -211,12 +212,16 @@ class Reservation extends AbstractMenu{
 			}
 			}
 			int D=Integer.parseInt(Cl);
-			st.show[Ar][D]='O';
+			st.show[Ar][D+1]='O';
 
 			for(int i=1; i<11; i++){
 			for(int j=1; j<11; j++){
 				bw.write(st.show[i][j]);
-			}}
+				System.out.println(st.show[i][j]);
+			}bw.write("\r");
+			System.out.println("\r");
+			}
+			delay();
 			bw.flush();
 			bw.close();
 			fw.close();
@@ -715,50 +720,59 @@ abstract class AbstractMenu extends Thread{
 		
 	}
 	public void recommend() throws IOException {
+		
 		resetMovie();
 		RoadMovie();
-		line30();
-		System.out.println("Genre Recommend");
-		line30();
-		System.out.print(" 액션");
-		System.out.print(" 코미디");
-		System.out.print(" 공포");
-		System.out.println(" SF");
-		System.out.print(" 스릴러");
-		System.out.print(" 판타지");
-		System.out.print(" 로맨스");
-		System.out.println(" 음악");
-		System.out.print(" 뮤지컬");
-		System.out.print(" 범죄");
-		System.out.println(" 스포츠");
-		
-		line30();
-		System.out.println("what are you want genre");
-		String genre=Ser.readLine();
-		int range=0;
-//		try {
-			for(int i=0; i<MovieAl.size(); i++) {
+		String genre=null;
+		boolean run=true;
+		int i=0;
+		try {
+			while(run==true){
+			MovieListGetAll();
+			System.out.println("input genre");
+			genre=Ser.readLine();
+			for( i=0; i<MovieAl.size(); i++) {
 				if(genre.equals(MovieAl.get(i).MovieGenre)) {
-					range++;
+					run=false;
+					break;
 				}
 			}
-			int [] Random = new int [range];
-			range=0;
-			for(int i=0; i<MovieAl.size(); i++) {
-				if(genre.equals(MovieAl.get(i).getMovieGenre())){
-					Random[range]=i;
-					range++;
-				}
+			clear();
+			if(i==MovieAl.size()) {
+			System.out.println("not genre");
+			}
 			}
 			
-			
-			int ran=((int) Math.random()*range);
-			ran=Random[ran];
-			System.out.println(ran);
-			MovieAl.get(ran).getname();
-//		}catch(ArrayIndexOutOfBoundsException e){
-//			System.out.println("Movie is nonthing");
-//		}
+		
+		String [] str=new String [MovieAl.size()];
+		for( i=0; i<MovieAl.size(); i++){
+			if(genre.equals(MovieAl.get(i).MovieGenre)){
+			str[i]=MovieAl.get(i).MovieName;		 
+			}
+		}
+
+		int Aw=0;
+		for( i=0; i<str.length; i++){
+			if(str[i]==null){
+			}else{
+			Aw++;
+			}	
+		}
+		String [] nameA=new String [Aw];
+		Aw=0;
+		for( i=0; i<str.length; i++){
+			if(str[i]==null){
+			}else{
+			nameA[Aw]=str[i];
+			Aw++;
+			}	
+		}
+		Random rand=new Random();
+		Aw=rand.nextInt(Aw);
+		System.out.println("<Recoomend Movie> -->"+nameA[Aw]);
+		}catch(IOException e){
+			System.out.println("Movie is nonthing");
+		}
 	}
 	
 	public void delay() {
