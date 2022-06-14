@@ -227,11 +227,11 @@ class Reservation extends AbstractMenu{
 			for(int i=1; i<11; i++){
 			for(int j=1; j<11; j++){
 				bw.write(st.show[i][j]);
-				System.out.print(st.show[i][j]);
+//				System.out.print(st.show[i][j]);
 			}bw.write("\r");
-			System.out.println("\r");
+//			System.out.println("\r");
 			}
-			delay();
+//			delay();
 			bw.flush();
 			bw.close();
 			fw.close();
@@ -589,78 +589,75 @@ abstract class AbstractMenu extends Thread{
 		}
 	}
 	//Movie remove
-	@SuppressWarnings("unlikely-arg-type")
-	//this get problem plz fix now
 	public void Remove_Movie()throws IOException{
 			MovieListGetAll();
 			System.out.println("Enter Remove Name");
-			int x=Integer.parseInt(Ser.readLine());
-			String mona=MovieAl.get(x-1).MovieName;
+			String mona=Ser.readLine();
 			Seats seat=new Seats();
 			seat.mn=mona;
+	
 //			seat.set_Seats();
-			File f=new File(path+"\\"+mona+"seat.txt");
-			f.delete();
 			try {
-			FileReader ar=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
-			BufferedReader aor=new BufferedReader(ar);
-			String ae;
-			ArrayList<String> as=new ArrayList<String>();
-			while((ae=aor.readLine())!=null) {
-				String [] es=ae.split("-");
-				if(es[0].equals(x-1)) {
-					
-				}else{
-					as.add(ae);
-				}
-			}
-			aor.close();
-			ar.close();
-			
-
-			FileWriter aw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
-			BufferedWriter aow=new BufferedWriter(aw);
-			
-			for(int i=0; i<as.size(); i++) {
-				aow.write(as.get(i));
-			}
-			
-			
-			aow.flush();
-			aow.close();
-			aw.close();
-			}catch(IOException e) {
-				System.out.println("This movie None Ticket");
-			}
-			MovieAl.remove(x-1);
-			
-			FileReader fr=new FileReader(path+"\\data.txt",StandardCharsets.UTF_8);
-			BufferedReader br=new BufferedReader(fr);
-			ArrayList<String> TemporData=new ArrayList<String>();
-			String d=null;
-			String [] a=new String [3];
-			count=1;
-			while((d=br.readLine())!=null) {
-				a=d.split(",");
-				if(mona==a[1]) {
-				}else {
-					TemporData.add(count+","+a[1]+","+a[2]);
-					count++;
-				}
-			}
-			TemporData.remove(x-1);
-			br.close();
-			fr.close();
-			FileWriter fw=new FileWriter(path+"\\data.txt",StandardCharsets.UTF_8,false);
-			BufferedWriter bw=new BufferedWriter(fw);
-			for(int i=0; i<TemporData.size();i++) {
-				bw.write(TemporData.get(i)+"\r");
+				File f=new File(path+"\\"+mona+"seat.txt");
+				f.delete();
 				
-			}
-			bw.flush();
-			bw.close();
-			fw.close();
-		
+				FileReader ar=new FileReader(path+"\\Reservation.txt",StandardCharsets.UTF_8);
+				BufferedReader aor=new BufferedReader(ar);
+				
+				String ae;
+				
+				ArrayList<String> as=new ArrayList<String>();
+				while((ae=aor.readLine())!=null){
+					String[] es=ae.split("-");
+					if(es[1].equals(mona)!=false){
+						as.add(ae);	
+					}
+				}
+				
+				aor.close();
+				ar.close();
+				
+				FileWriter aw=new FileWriter(path+"\\Reservation.txt",StandardCharsets.UTF_8,false);
+				BufferedWriter aow=new BufferedWriter(aw);
+
+				for(int i=0; i<as.size(); i++){
+					aow.write(as.get(i)+"\r");
+				}
+				aow.flush();
+				aow.close();
+				aw.close();
+				}catch(FileNotFoundException e){
+					System.out.print("this movie is none ticket");
+				}
+				FileReader fr=new FileReader(path+"\\data.txt",StandardCharsets.UTF_8);
+				BufferedReader br=new BufferedReader(fr);
+				ArrayList<String> Tempdata=new ArrayList<String>();
+				String d=null;
+				count=1;
+				String c=null;
+				String [] Ard=new String[3];
+				while((d=br.readLine())!=null){
+					Ard=d.split(",");
+					
+					c=Integer.toString(count);
+					
+					if(mona.equals(Ard[1])!=true){
+					Tempdata.add(c+","+Ard[1]+","+Ard[2]);
+					count++;
+					}
+				}
+				br.close();
+				fr.close();
+				FileWriter fw=new FileWriter(path+"\\data.txt",StandardCharsets.UTF_8,false);
+				BufferedWriter bw=new BufferedWriter(fw);
+
+					for(int i=0; i<Tempdata.size();i++){
+					bw.write(Tempdata.get(i)+"\r");
+					}
+					bw.flush();
+				bw.close();
+				fw.close();
+
 	}
 	public void Remove_MovieAll() throws IOException {
 	
@@ -776,7 +773,8 @@ class AdminMenu extends AbstractMenu{
 	void AdminMenuRun() throws IOException{
 		boolean Runner=true;
 		while(Runner==true){
-			
+		resetMovie();
+		RoadMovie();
 		Menu menu=new Menu();
 		
 		clear();
